@@ -26,7 +26,7 @@ SECRET_KEY = '_d@(@y6c@0138qj@1jl^tz2+3%$p(ho96y0=f=tv6iup6i7j_&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', 'meg-backend-46.herokuapp.com']
 
 
 # Application definition
