@@ -38,7 +38,7 @@ def PreProcess(doc):
     Input:
     doc(string)
     Output:
-    str_result(string)
+    
     """
     stemmer = nltk.stem.PorterStemmer()
     try:
@@ -49,16 +49,24 @@ def PreProcess(doc):
     doc = re.sub('http://[^\s]+', '', doc)
     t = nltk.tokenize.word_tokenize(doc)
 
-    str_result = ''
+    result = ''
     for token in t:
         if token in string.punctuation:
             continue
         elif token in nltk.corpus.stopwords.words('english'):
             continue
         else:
-            str_result += ' ' + stemmer.stem(token)
+            result += ' ' + stemmer.stem(token)
 
-    return str_result
+    # Pre-process
+    pre = [result]
+    tokenized = tokenizer.texts_to_sequences(pre)
+    padded = pad_sequences(tokenized, maxlen=entry_length, padding=padding_type)
+
+    # Parse into json
+    request = {"instances": padded.tolist()}
+
+    return request
 
 #########
 # Debug #
