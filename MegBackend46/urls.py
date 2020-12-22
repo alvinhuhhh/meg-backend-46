@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from Megan import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('Megan/', views.call_model.as_view())
 ]
