@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
 from .models import UserReplies
 from .serializers import UserRepliesSerializer
 from .apps import MeganConfig
@@ -15,7 +16,9 @@ def call(request):
     Function info
     """
     if request == 'GET':
-        return
+        data = UserReplies('Hello! I am Megan!')
+        text = UserRepliesSerializer(data, many=True)
+        return Response(text.data)
 
     elif request == 'POST':
         data = MeganConfig.parse(request)
