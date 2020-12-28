@@ -17,6 +17,7 @@ class call_model(APIView):
         return JsonResponse("Hello! I'm Megan!", safe=False)
     
     def post(self, request, *args, **kwargs):
-        parsed = MeganConfig.parse(str(request.data))
+        parsed = MeganConfig.parse(str(request.data['text']))
         prediction = requests.post(PREDICTION_ENDPOINT, json=parsed)
-        return JsonResponse(prediction.text, safe=False)
+        result = MeganConfig.decode(prediction.text)
+        return JsonResponse(str(result), safe=False)

@@ -4,6 +4,7 @@ import re
 import nltk
 import string
 import pickle
+import json
 import numpy as np
 import pandas as pd
 import tensorflow as tf
@@ -38,18 +39,15 @@ def PreProcess(doc):
     Input:
     doc(string)
     Output:
-    
+    request(Json)
     """
-    stemmer = nltk.stem.PorterStemmer()
-    try:
-        doc.lower()
-    except:
-        print('Error at', doc)
+    doc.lower()
     doc = re.sub('@[^\s]+', '', doc)
     doc = re.sub('http://[^\s]+', '', doc)
     t = nltk.tokenize.word_tokenize(doc)
 
     result = ''
+    stemmer = nltk.stem.PorterStemmer()
     for token in t:
         if token in string.punctuation:
             continue
@@ -67,6 +65,20 @@ def PreProcess(doc):
     request = {"instances": padded.tolist()}
 
     return request
+
+def ProcessResult(JsonString):
+    """
+    Processes the JSON object from the machine learning server.
+
+    Input: 
+    JsonString(string)
+    Output:
+    integer(integer)
+    """
+    predictions = json.loads(JsonString)['predictions'][0]
+    tensor = tf.math.argmax(predictions)
+    integer = tensor.numpy()
+    return integer
 
 #########
 # Debug #
