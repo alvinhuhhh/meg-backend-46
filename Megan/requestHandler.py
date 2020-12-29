@@ -36,8 +36,11 @@ class Handler:
         Output:
         response(string)
         """
-        response = self.stages.get(body["stage"])
-        return response(self, body)
+        try:
+            response = self.stages.get(body["stage"])
+            return response(self, body)
+        except:
+            return "Out of bounds!"
         
 #########
 # Debug #
