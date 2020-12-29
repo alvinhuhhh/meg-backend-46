@@ -6,5 +6,6 @@ class UserReplies(models.Model):
     text = models.TextField()
 
 class MeganReplies(models.Model):
+    num = models.IntegerField()
     stage = models.IntegerField()
-    
+    text = models.TextField()
