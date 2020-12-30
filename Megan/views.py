@@ -17,7 +17,4 @@ class call_model(APIView):
     def post(self, request, *args, **kwargs):
         requestHandler = Handler()
         response = requestHandler.handle(request.data)
-        # parsed = MeganConfig.parse(str(request.data['text']))
-        # prediction = requests.post(PREDICTION_ENDPOINT, json=parsed)
-        # result = MeganConfig.decode(prediction.text)
         return JsonResponse(response, safe=False)

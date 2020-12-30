@@ -79,8 +79,12 @@ WSGI_APPLICATION = 'MegBackend46.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dcu1av9nahe3qk',
+        'USER': 'gberecmrxrpphr',
+        'PASSWORD': 'd24ba5ac95a2e982972842c924dbf75bf204c2900b092ce4ef4942f0403a7591',
+        'HOST': 'ec2-50-17-197-184.compute-1.amazonaws.com',
+        'PORT': '5432'
     }
 }
 
