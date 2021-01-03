@@ -2,28 +2,29 @@ import json
 import requests
 from .preprocessing import PreProcess
 from .preprocessing import ProcessResult
+from .models import Replies
 
 PREDICTION_ENDPOINT = "https://megan-test-46.herokuapp.com/v1/models/LSTM:predict"
 
 class Handler:
 
     def one(self, body=None):
-        return "Hey! I'm Megan!"
+        return Replies.objects.get(stage=1).text
 
     def two(self, body=None):
-        return "What's your name?"
+        return Replies.objects.get(stage=2).text
 
     def three(self, body=None):
-        return "Hi User! So how you feeling today?"
+        return Replies.objects.get(id=3).text
 
     def four(self, body=None):
         parsed = PreProcess(body["text"])
         predictions = requests.post(PREDICTION_ENDPOINT, json=parsed)
         result = ProcessResult(predictions.text)
         if result == 0:
-            return "Aiyo why liddat? Its okay sometimes I feel liddat also..."
+            return Replies.objects.get(id=8).text
         elif result == 4:
-            return "Swee! I see you happy I also shiok!"
+            return Replies.objects.get(id=4).text
         else:
             return "Error!"
 
@@ -39,8 +40,8 @@ class Handler:
         try:
             response = self.stages.get(body["stage"])
             return response(self, body)
-        except:
-            return "Out of bounds!"
+        except Exception as e:
+            return "Error: " + str(e) 
         
 #########
 # Debug #
