@@ -7,3 +7,6 @@ class Replies(models.Model):
     response_type = models.CharField(max_length=10)
     text = models.CharField(max_length=100)
     sentiment = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.text
