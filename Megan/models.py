@@ -4,9 +4,9 @@ from django.db import models
 
 class Replies(models.Model):
     stage = models.IntegerField()
-    response_type = models.CharField(max_length=10)
-    text = models.CharField(max_length=1000)
-    sentiment = models.CharField(max_length=10)
+    response_type = models.CharField(max_length=50)
+    text = models.TextField()
+    sentiment = models.CharField(max_length=50)
 
     def __str__(self):
         return self.text
