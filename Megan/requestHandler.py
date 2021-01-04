@@ -15,20 +15,45 @@ class Handler:
         return Replies.objects.get(stage=2).text
 
     def three(self, body=None):
-        return Replies.objects.get(id=3).text
+        return Replies.objects.get(stage=3).text
 
     def four(self, body=None):
         parsed = PreProcess(body["text"])
         predictions = requests.post(PREDICTION_ENDPOINT, json=parsed)
         result = ProcessResult(predictions.text)
         if result == 0:
-            return Replies.objects.get(id=8).text
+            return Replies.objects.get(stage=4, sentiment='negative').text
         elif result == 4:
-            return Replies.objects.get(id=4).text
+            return Replies.objects.get(stage=4, sentiment='positive').text
         else:
             return "Error!"
 
-    stages = {"1": one, "2": two, "3": three, "4": four}
+    def five(self, body=None):
+        return Replies.objects.get(stage=5).text
+
+    def six(self, body=None):
+        return Replies.objects.get(stage=6).text
+
+    def seven(self, body=None):
+        return 'Not yet!'
+
+    def eight(self, body=None):
+        return 'Not yet!'
+
+    def nine(self, body=None):
+        return 'Not yet!'
+
+    stages = {
+        "1": one,
+        "2": two,
+        "3": three,
+        "4": four,
+        "5": five,
+        "6": six,
+        "7": seven,
+        "8": eight,
+        "9": nine,
+    }
 
     def handle(self, body):
         """
