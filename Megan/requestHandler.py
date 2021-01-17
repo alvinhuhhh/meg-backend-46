@@ -6,6 +6,7 @@ from .models import Replies
 
 PREDICTION_ENDPOINT = "https://megan-test-46.herokuapp.com/v1/models/LSTM:predict"
 
+
 class Handler:
 
     def one(self, body=None):
@@ -66,11 +67,13 @@ class Handler:
             response = self.stages.get(body["stage"])
             return response(self, body)
         except Exception as e:
-            return "Error: " + str(e) 
-        
+            return body
+
 #########
 # Debug #
 #########
+
+
 def main():
     test = {
         "id": "1",
@@ -81,6 +84,7 @@ def main():
     testHandler = Handler()
     print(testHandler.handle(test))
     return
+
 
 if __name__ == "__main__":
     main()
