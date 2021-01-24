@@ -67,7 +67,7 @@ class Handler:
             response = self.stages.get(body["stage"])
             return response(self, body)
         except Exception as e:
-            return body
+            return "Error!" + e
 
 #########
 # Debug #

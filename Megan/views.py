@@ -7,13 +7,13 @@ from .apps import MeganConfig
 from .requestHandler import Handler
 
 # Create your views here.
-PREDICTION_ENDPOINT = "https://megan-test-46.herokuapp.com/v1/models/LSTM:predict"
+
 
 class call_model(APIView):
 
     def get(self, request, *args, **kwargs):
-        return JsonResponse("Hello! I'm Megan!", safe=False)
-    
+        return JsonResponse("Success!", safe=False)
+
     def post(self, request, *args, **kwargs):
         requestHandler = Handler()
         response = requestHandler.handle(request.data)
