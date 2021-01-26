@@ -1,10 +1,8 @@
 import json
 import requests
-from .preprocessing import PreProcess
-from .preprocessing import ProcessResult
 from .models import Replies
 
-PREDICTION_ENDPOINT = "https://megan-test-46.herokuapp.com/v1/models/LSTM:predict"
+PREDICTION_ENDPOINT = "https://megan-bert-v3.herokuapp.com/v1/models/meganBERTv3:predict"
 
 
 class Handler:
@@ -19,13 +17,18 @@ class Handler:
         return Replies.objects.get(stage=3).text
 
     def four(self, body=None):
-        parsed = PreProcess(body["text"])
-        predictions = requests.post(PREDICTION_ENDPOINT, json=parsed)
-        result = ProcessResult(predictions.text)
-        if result == 0:
-            return Replies.objects.get(stage=4, sentiment='negative').text
-        elif result == 4:
+        parsed = {
+            "instances": [body["text"]]
+        }
+        JsonResponse = requests.post(PREDICTION_ENDPOINT, json=parsed)
+        result = json.loads(JsonResponse.text)['predictions'][0][0]
+
+        if result >= 0.9:
             return Replies.objects.get(stage=4, sentiment='positive').text
+        elif result >= 0.1:
+            return Replies.objects.get(stage=4, sentiment='neutral').text
+        elif result < 0.1:
+            return Replies.objects.get(stage=4, sentiment='negative').text
         else:
             return "Error!"
 
