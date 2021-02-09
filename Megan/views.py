@@ -16,8 +16,8 @@ class call_model(APIView):
         parsed = {
             "instances": ["Wake up!"]
         }
-        JsonResponse = requests.post(PREDICTION_ENDPOINT, json=parsed)
-        result = json.loads(JsonResponse.text)['predictions'][0][0]
+        response = requests.post(PREDICTION_ENDPOINT, json=parsed)
+        result = json.loads(response.text)['predictions'][0][0]
         if result:
             return JsonResponse("Success!", safe=False)
         else:
