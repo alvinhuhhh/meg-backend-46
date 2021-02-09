@@ -7,12 +7,21 @@ from .apps import MeganConfig
 from .requestHandler import Handler
 
 # Create your views here.
+PREDICTION_ENDPOINT = "https://megan-bert-v3.herokuapp.com/v1/models/meganBERTv3:predict"
 
 
 class call_model(APIView):
 
     def get(self, request, *args, **kwargs):
-        return JsonResponse("Success!", safe=False)
+        parsed = {
+            "instances": ["Wake up!"]
+        }
+        JsonResponse = requests.post(PREDICTION_ENDPOINT, json=parsed)
+        result = json.loads(JsonResponse.text)['predictions'][0][0]
+        if result:
+            return JsonResponse("Success!", safe=False)
+        else:
+            return JsonResponse("Prediction service offline!", safe=False)
 
     def post(self, request, *args, **kwargs):
         requestHandler = Handler()
