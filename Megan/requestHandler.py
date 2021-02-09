@@ -23,11 +23,11 @@ class Handler:
         JsonResponse = requests.post(PREDICTION_ENDPOINT, json=parsed)
         result = json.loads(JsonResponse.text)['predictions'][0][0]
 
-        if result >= 0.9:
+        if result >= 0.8:
             return Replies.objects.get(stage=4, sentiment='positive').text
-        elif result >= 0.1:
+        elif result >= 0.001:
             return Replies.objects.get(stage=4, sentiment='neutral').text
-        elif result < 0.1:
+        elif result < 0.001:
             return Replies.objects.get(stage=4, sentiment='negative').text
         else:
             return "Error!"
