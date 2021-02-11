@@ -9,7 +9,7 @@ from .apps import MeganConfig
 from .requestHandler import Handler
 
 # Create your views here.
-PREDICTION_ENDPOINT = "https://megan-bert-v3.herokuapp.com/v1/models/meganBERTv3:predict"
+PREDICTION_ENDPOINT = "https://megan-bert-v4.herokuapp.com/v1/models/meganBERTv4:predict"
 
 
 class call_model(APIView):

@@ -2,7 +2,7 @@ import json
 import requests
 from .models import Replies
 
-PREDICTION_ENDPOINT = "https://megan-bert-v3.herokuapp.com/v1/models/meganBERTv3:predict"
+PREDICTION_ENDPOINT = "https://megan-bert-v4.herokuapp.com/v1/models/meganBERTv4:predict"
 
 
 class Handler:
