@@ -26,5 +26,6 @@ class call_model(APIView):
             return JsonResponse("Prediction service offline!", safe=False)
 
     def post(self, request, *args, **kwargs):
-        response = Handler.handle(request.data)
+        requestHandler = Handler()
+        response = requestHandler.handle(request.data)
         return JsonResponse(response, safe=False)
