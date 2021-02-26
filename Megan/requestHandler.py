@@ -1,6 +1,7 @@
 import json
 import requests
 from .models import Replies
+from .models import Users
 
 PREDICTION_ENDPOINT = "https://megan-bert-v4.herokuapp.com/v1/models/meganBERTv4:predict"
 
@@ -66,11 +67,16 @@ class Handler:
         Output:
         response(string)
         """
-        try:
-            response = self.stages.get(body["stage"])
-            return response(self, body)
-        except Exception as e:
-            return "Error!" + e
+        if body["function"] == "get":
+            return "Get messages!"
+        elif body["function"] == "message":
+            try:
+                response = "This is Megan's reply!"
+                return response
+            except Exception as e:
+                return "Error!" + e
+        else:
+            return "Request failed!"
 
 #########
 # Debug #
