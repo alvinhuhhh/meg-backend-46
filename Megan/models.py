@@ -14,7 +14,7 @@ class Replies(models.Model):
 
 
 class UserMessages(models.Model):
-    _id = models.IntegerField()
+    user_id = models.IntegerField()
     stage = models.IntegerField()
     text = models.TextField()
 
