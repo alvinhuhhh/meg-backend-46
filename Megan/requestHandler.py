@@ -84,7 +84,8 @@ class Handler:
 
                     return response
                 else:
-                    new = UserMessages(user_id=int(body["id"]), stage=1)
+                    new = UserMessages(
+                        name="User " + body["id"], user_id=int(body["id"]), stage=1)
                     new.save()
                     return "New user saved"
             except Exception as e:

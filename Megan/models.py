@@ -14,9 +14,9 @@ class Replies(models.Model):
 
 
 class UserMessages(models.Model):
+    name = models.TextField()
     user_id = models.IntegerField()
     stage = models.IntegerField()
-    text = models.TextField()
 
     def __str__(self):
-        return self.text
+        return self.name
