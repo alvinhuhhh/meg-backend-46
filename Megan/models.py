@@ -18,4 +18,4 @@ class UserMessages(models.Model):
     stage = models.IntegerField()
 
     def __str__(self):
-        return self.text
+        return self.stage
