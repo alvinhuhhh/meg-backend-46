@@ -71,8 +71,10 @@ class Handler:
             return "Get messages!"
         elif body["function"] == "message":
             try:
-                response = "This is Megan's reply!"
-                return response
+                if UserMessages.objects.get(user_id=int(body["user_id"])):
+                    return "User found"
+                else:
+                    return "User not found"
             except Exception as e:
                 return "Error!" + e
         else:
@@ -85,10 +87,9 @@ class Handler:
 
 def main():
     test = {
-        "id": "1",
-        "stage": "4",
-        "type": "OE Response",
-        "text": "i am sad @alvinhuhhh"
+        "user_id": "1",
+        "function": "message",
+        "text": "Hello!"
     }
     testHandler = Handler()
     print(testHandler.handle(test))

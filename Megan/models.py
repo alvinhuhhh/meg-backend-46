@@ -16,7 +16,6 @@ class Replies(models.Model):
 class UserMessages(models.Model):
     user_id = models.IntegerField()
     stage = models.IntegerField()
-    messages = models.JSONField()
 
     def __str__(self):
         return self.text
