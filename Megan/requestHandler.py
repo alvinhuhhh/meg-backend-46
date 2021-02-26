@@ -1,7 +1,7 @@
 import json
 import requests
 from .models import Replies
-from .models import Users
+from .models import UserMessages
 
 PREDICTION_ENDPOINT = "https://megan-bert-v4.herokuapp.com/v1/models/meganBERTv4:predict"
 

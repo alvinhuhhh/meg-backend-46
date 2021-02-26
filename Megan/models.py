@@ -13,7 +13,7 @@ class Replies(models.Model):
         return self.text
 
 
-class Users(models.Model):
+class UserMessages(models.Model):
     user_id = models.IntegerField()
     stage = models.IntegerField()
     messages = models.JSONField()
