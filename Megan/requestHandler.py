@@ -15,15 +15,22 @@ class Handler:
         return Replies.objects.get(stage=2).text
 
     def three(self, body=None):
-        return Replies.objects.get(stage=3).text
+        # Get username from body
+        username = body["text"]
+        # Get appropriate response from database
+        db_text = Replies.objects.get(stage=3).text
+        # Replace placeholder with username
+        txt = db_text.replace("User", username)
+        return txt
 
     def four(self, body=None):
+        # Parse and send user's reply to prediction endpoint
         parsed = {
             "instances": [body["text"]]
         }
         JsonResponse = requests.post(PREDICTION_ENDPOINT, json=parsed)
         result = json.loads(JsonResponse.text)['predictions'][0][0]
-
+        # Classify and get appropriate response from database
         if result >= 0.8:
             return Replies.objects.get(stage=4, sentiment='positive').text
         elif result >= 0.01:
@@ -34,10 +41,10 @@ class Handler:
             return "Error!"
 
     def five(self, body=None):
-        return Replies.objects.get(stage=5).text
+        return 'Not yet!'
 
     def six(self, body=None):
-        return Replies.objects.get(stage=6).text
+        return 'Not yet!'
 
     def seven(self, body=None):
         return 'Not yet!'
@@ -69,42 +76,44 @@ class Handler:
         """
         if body["function"] == "get":
             return "Get messages!"
+
         elif body["function"] == "message":
             try:
+                # If user already exists in database
                 if UserData.objects.filter(user_id=int(body["user_id"])):
                     user = UserData.objects.get(
-                        user_id=int(body["user_id"]))
+                        user_id=int(body["user_id"])
+                    )
                     stage = user.stage
-
-                    # Get the right response from database using the switcher above
-                    response = self.stages[str(stage)](self)
-
-                    # Update database with new stage
-                    user.stage = stage + 1
-                    user.save()
-
-                    return response
-
+                # Create new user and save in database
                 else:
                     new = UserData(
-                        name="User " + body["user_id"], user_id=int(body["user_id"]), stage=1)
+                        name="User " + body["user_id"],
+                        user_id=int(body["user_id"]),
+                        stage=1,
+                        messages=[]
+                    )
                     new.save()
 
                     user = UserData.objects.get(
-                        user_id=int(body["user_id"]))
+                        user_id=int(body["user_id"])
+                    )
                     stage = user.stage
 
-                    # Get the right response from database using the switcher above
-                    response = self.stages[str(stage)](self)
+                # Get the right response from database using the switcher above
+                response = self.stages[str(stage)](self, body)
 
-                    # Update database with new stage
+                # Update database with new stage and message
+                if stage < 4:
                     user.stage = stage + 1
-                    user.save()
+                user.messages.append(body["text"])
+                user.save()
 
-                    return response
+                return response
 
             except Exception as e:
                 return "Error " + str(e)
+
         else:
             return "Request failed!"
 

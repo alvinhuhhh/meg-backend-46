@@ -18,7 +18,7 @@ class UserData(models.Model):
     name = models.TextField()
     user_id = models.IntegerField()
     stage = models.IntegerField()
-    messages = ArrayField(models.CharField(max_length=100))
+    messages = ArrayField(models.CharField(max_length=100, blank=True))
 
     def __str__(self):
         return self.name
