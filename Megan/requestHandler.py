@@ -93,7 +93,6 @@ class Handler:
                 else:
                     new = UserData(
                         name="User " + body["user_id"],
-                        username="username",
                         user_id=int(body["user_id"]),
                         stage=1,
                         messages=[]
