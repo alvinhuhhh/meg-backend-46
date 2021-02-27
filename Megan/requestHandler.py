@@ -17,6 +17,10 @@ class Handler:
     def three(self, body=None):
         # Get username from body
         username = body["text"]
+        # Save username in database
+        user = UserData.objects.get(user_id=int(body["user_id"]))
+        user.username = username
+        user.save()
         # Get appropriate response from database
         db_text = Replies.objects.get(stage=3).text
         # Replace placeholder with username
@@ -89,6 +93,7 @@ class Handler:
                 else:
                     new = UserData(
                         name="User " + body["user_id"],
+                        username="username",
                         user_id=int(body["user_id"]),
                         stage=1,
                         messages=[]
@@ -100,7 +105,7 @@ class Handler:
                     )
                     stage = user.stage
 
-                # Get the right response from database using the switcher above
+                # Redirect to switcher to handle different stages
                 response = self.stages[str(stage)](self, body)
 
                 # Update database with new stage and message
