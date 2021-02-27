@@ -71,8 +71,9 @@ class Handler:
             return "Get messages!"
         elif body["function"] == "message":
             try:
-                if UserMessages.objects.filter(user_id=int(body["id"])):
-                    user = UserMessages.objects.get(user_id=int(body["id"]))
+                if UserMessages.objects.filter(user_id=int(body["user_id"])):
+                    user = UserMessages.objects.get(
+                        user_id=int(body["user_id"]))
                     stage = user.stage
 
                     # Get the right response from database using the switcher above
@@ -85,7 +86,7 @@ class Handler:
                     return response
                 else:
                     new = UserMessages(
-                        name="User " + body["id"], user_id=int(body["id"]), stage=1)
+                        name="User " + body["user_id"], user_id=int(body["user_id"]), stage=1)
                     new.save()
                     return "New user saved"
             except Exception as e:
