@@ -16,8 +16,7 @@ class Replies(models.Model):
 
 class UserData(models.Model):
     name = models.TextField(default='user', max_length=50)
-    username = models.TextField(default='username', max_length=50)
-    user_id = models.IntegerField()
+    user_id = models.IntegerField(primary_key=True)
     stage = models.IntegerField()
     messages = ArrayField(models.CharField(max_length=100, blank=True))
 

@@ -19,8 +19,8 @@ class Handler:
         username = body["text"]
         # Save username in database
         user = UserData.objects.get(user_id=int(body["user_id"]))
-        user.username = username
-        user.save()
+        user.name = username
+        user.save(force_update=True)
         # Get appropriate response from database
         db_text = Replies.objects.get(stage=3).text
         # Replace placeholder with username
