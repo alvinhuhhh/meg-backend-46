@@ -1,7 +1,7 @@
 import json
 import requests
 from .models import Replies
-from .models import UserMessages
+from .models import UserData
 
 PREDICTION_ENDPOINT = "https://megan-bert-v4.herokuapp.com/v1/models/meganBERTv4:predict"
 
@@ -71,8 +71,8 @@ class Handler:
             return "Get messages!"
         elif body["function"] == "message":
             try:
-                if UserMessages.objects.filter(user_id=int(body["user_id"])):
-                    user = UserMessages.objects.get(
+                if UserData.objects.filter(user_id=int(body["user_id"])):
+                    user = UserData.objects.get(
                         user_id=int(body["user_id"]))
                     stage = user.stage
 
@@ -84,11 +84,25 @@ class Handler:
                     user.save()
 
                     return response
+
                 else:
-                    new = UserMessages(
+                    new = UserData(
                         name="User " + body["user_id"], user_id=int(body["user_id"]), stage=1)
                     new.save()
-                    return "New user saved"
+
+                    user = UserData.objects.get(
+                        user_id=int(body["user_id"]))
+                    stage = user.stage
+
+                    # Get the right response from database using the switcher above
+                    response = self.stages[str(stage)](self)
+
+                    # Update database with new stage
+                    user.stage = stage + 1
+                    user.save()
+
+                    return response
+
             except Exception as e:
                 return "Error " + str(e)
         else:

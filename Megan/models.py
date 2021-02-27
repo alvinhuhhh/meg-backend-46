@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 
@@ -13,10 +14,11 @@ class Replies(models.Model):
         return self.text
 
 
-class UserMessages(models.Model):
+class UserData(models.Model):
     name = models.TextField()
     user_id = models.IntegerField()
     stage = models.IntegerField()
+    messages = ArrayField(models.CharField(max_length=100))
 
     def __str__(self):
         return self.name
