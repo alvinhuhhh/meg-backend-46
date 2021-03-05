@@ -44,31 +44,15 @@ class Handler:
         else:
             return "Error!"
 
-    def five(self, body=None):
-        return 'Not yet!'
-
-    def six(self, body=None):
-        return 'Not yet!'
-
-    def seven(self, body=None):
-        return 'Not yet!'
-
-    def eight(self, body=None):
-        return 'Not yet!'
-
-    def nine(self, body=None):
-        return 'Not yet!'
+    def OutOfBounds(self, body=None):
+        return 'Integer stage out of bounds!'
 
     stages = {
         "1": one,
         "2": two,
         "3": three,
         "4": four,
-        "5": five,
-        "6": six,
-        "7": seven,
-        "8": eight,
-        "9": nine,
+        "ob": OutOfBounds,
     }
 
     def handle(self, body):
@@ -105,7 +89,10 @@ class Handler:
                     stage = user.stage
 
                 # Redirect to switcher to handle different stages
-                response = self.stages[str(stage)](self, body)
+                if stage <= 4:
+                    response = self.stages[str(stage)](self, body)
+                else:
+                    response = self.stages['ob'](self, body)
 
                 # Update database with new stage and message
                 if stage < 4:
