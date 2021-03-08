@@ -76,7 +76,7 @@ class Handler:
                 # Create new user and save in database
                 else:
                     new = UserData(
-                        name="User " + body["user_id"],
+                        name=body["user_id"],
                         user_id=int(body["user_id"]),
                         stage=1,
                         messages=[]
