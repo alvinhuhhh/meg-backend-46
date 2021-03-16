@@ -22,3 +22,12 @@ class UserData(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class NewDataset(models.Model):
+    _id = models.IntegerField(default=0)
+    sentence = models.TextField(default='')
+    sentiment = models.IntegerField(default=9)
+
+    def _str__(self):
+        return self._id
