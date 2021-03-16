@@ -1,7 +1,6 @@
 import json
 import requests
-from .models import Replies
-from .models import UserData
+from .models import Replies, UserData, NewDataset
 
 PREDICTION_ENDPOINT = "https://megan-bert-v4.herokuapp.com/v1/models/meganBERTv4:predict"
 
@@ -25,9 +24,17 @@ class Handler:
         db_text = Replies.objects.get(stage=3).text
         # Replace placeholder with username
         txt = db_text.replace("User", username)
+
         return txt
 
     def four(self, body=None):
+        # Save user's reply to NewDataset
+        new = NewDataset(
+            _id=body["user_id"],
+            sentence=body["text"],
+            sentiment=9  # Default
+        )
+        new.save()
         # Parse and send user's reply to prediction endpoint
         parsed = {
             "instances": [body["text"]]
@@ -44,6 +51,23 @@ class Handler:
         else:
             return "Error!"
 
+    def five(self, body=None):
+        return Replies.objects.get(stage=5).text
+
+    def six(self, body=None):
+        # Get sentiment rating from body
+        sentiment = int(body["text"])
+        # Get the correct sentence by _id from database
+        sentence = NewDataset.objects.get(_id=body["user_id"])
+        # Update with rated sentiment and save
+        sentence.sentiment = sentiment
+        sentence.save(force_update=True)
+
+        return Replies.objects.get(stage=6).text
+
+    def seven(self, body=None):
+        return Replies.objects.get(stage=7).text
+
     def OutOfBounds(self, body=None):
         return 'Integer stage out of bounds!'
 
@@ -52,6 +76,9 @@ class Handler:
         "2": two,
         "3": three,
         "4": four,
+        "5": five,
+        "6": six,
+        "7": seven,
         "ob": OutOfBounds,
     }
 
@@ -89,13 +116,13 @@ class Handler:
                     stage = user.stage
 
                 # Redirect to switcher to handle different stages
-                if stage <= 4:
+                if stage <= 7:
                     response = self.stages[str(stage)](self, body)
                 else:
                     response = self.stages['ob'](self, body)
 
                 # Update database with new stage and message
-                if stage < 4:
+                if stage < 7:
                     user.stage = stage + 1
                 user.messages.append(body["text"])
                 user.save()

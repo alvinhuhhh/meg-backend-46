@@ -1,11 +1,8 @@
 absl-py==0.10.0
 asgiref==3.2.10
 astunparse==1.6.3
-boto3==1.16.25
-botocore==1.19.25
 click==7.1.2
 Django==3.1.1
-django-storages==1.10.1
 djangorestframework==3.12.1
 gast==0.3.3
 google-pasta==0.2.0
@@ -25,7 +22,6 @@ psycopg2==2.8.6
 python-dateutil==2.8.1
 pytz==2020.1
 regex==2020.7.14
-s3transfer==0.3.3
 scipy==1.4.1
 six==1.15.0
 sqlparse==0.3.1
@@ -35,4 +31,5 @@ tensorflow-estimator==2.3.0
 termcolor==1.1.0
 tqdm==4.48.2
 urllib3==1.25.10
+whitenoise==5.2.0
 wrapt==1.12.1
