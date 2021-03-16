@@ -9,4 +9,4 @@ class Record(models.Model):
     prediction = models.IntegerField()
 
     def __str__(self):
-        return ' '.join(['T:', self.text, 'P:', int(self.prediction)])
+        return self.text
