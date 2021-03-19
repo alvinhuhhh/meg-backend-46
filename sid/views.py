@@ -2,17 +2,16 @@ import numpy as np
 
 import requests
 import json
+from rest_framework.views import APIView
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 from sid.models import Record
 
 PREDICTION_ENDPOINT = "https://socialmediamonitor.herokuapp.com/v1/models/bert:predict"
 
 
-@csrf_exempt
-def index(request):
-    if request.method == 'GET':
+class Sid(APIView):
+    def get(self, request, *args, **kwargs):
         parsed = {
             "instances": ["Wake up!"]
         }
@@ -23,8 +22,8 @@ def index(request):
         else:
             return JsonResponse("Prediction service offline!", safe=False)
 
-    elif request.method == 'POST':
-        text = request.POST['text']
+    def post(self, request, *args, **kwargs):
+        text = request.data['text']
         parsed = {
             "instances": [text],
         }
