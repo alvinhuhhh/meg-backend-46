@@ -122,7 +122,7 @@ class Handler:
                     response = self.stages['ob'](self, body)
 
                 # Update database with new stage and message
-                if stage < 7:
+                if stage < 8:
                     user.stage = stage + 1
                 user.messages.append(body["text"])
                 user.save()
