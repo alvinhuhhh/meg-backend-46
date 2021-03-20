@@ -127,7 +127,10 @@ class Handler:
                 user.messages.append(body["text"])
                 user.save()
 
-                return response
+                return {
+                    'text': response,
+                    'stage': str(user.stage)
+                }
 
             except Exception as e:
                 return "Error " + str(e)
